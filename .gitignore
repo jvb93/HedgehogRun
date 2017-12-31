@@ -239,3 +239,5 @@ _Pvt_Extensions
 .fake/
 
 ArduinoCode/Secrets\.h
+
+Site/node_modules/
