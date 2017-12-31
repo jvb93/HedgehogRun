@@ -1,12 +1,15 @@
 <template>
-    <div>
-        <h1>Counter</h1>
+    <div class="panel panel-success">
+        <div class="panel-heading panel-bold">
+            Counter
+        </div>
+        <div class="panel-body">
+            <p>This is a simple example of a Vue.js component.</p>
 
-        <p>This is a simple example of a Vue.js component.</p>
+            <p>Current count: <strong>{{ currentcount }}</strong></p>
 
-        <p>Current count: <strong>{{ currentcount }}</strong></p>
-
-        <button @click="incrementCounter">Increment</button>
+            <button @click="incrementCounter">Increment</button>
+        </div>
     </div>
 </template>
 

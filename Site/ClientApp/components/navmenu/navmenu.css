@@ -1,13 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Anton|Pathway+Gothic+One');
 .main-nav li .glyphicon {
     margin-right: 10px;
 }
 
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    font-size: 300%;
+    color: #D4FF2C;
+    font-style: italic;
+}
+.main-nav li a {
+    font-family: 'Pathway Gothic One', sans-serif;
+    text-transform: uppercase;
+    font-size: 125%;
+}
 /* Highlighting rules for nav menu items */
 .main-nav li a.router-link-active,
 .main-nav li a.router-link-active:hover,
 .main-nav li a.router-link-active:focus {
-    background-color: #4189C7;
-    color: white;
+    background-color: #D4FF2C;
+    color: black;
 }
 
 /* Keep the nav menu independent of scrolling and on top of other items */
@@ -34,7 +47,7 @@
         float: none;
     }
     .main-nav .navbar-collapse {
-        border-top: 1px solid #444;
+      
         padding: 0px;
     }
     .main-nav .navbar ul {
