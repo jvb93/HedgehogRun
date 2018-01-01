@@ -7,8 +7,13 @@
     "target": "es5",
     "sourceMap": true,
     "skipDefaultLibCheck": true,
+    "noImplicitAny": true,
     "strict": true,
-    "types": ["webpack-env"]
+    "types": [ "webpack-env" ],
+    "typeRoots": [
+      "@types",
+      "./@types"
+    ]
   },
   "exclude": [
       "bin",
