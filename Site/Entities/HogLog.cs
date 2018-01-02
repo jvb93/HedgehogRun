@@ -11,5 +11,11 @@ namespace HedgehogRun.Entities
         public int Ticks { get; set; }
         public double TemperatureF { get; set; }
         public double Humidity { get; set; }
+        public DateTime PostTime { get; set; }
+
+        public HogLog()
+        {
+            PostTime = DateTime.UtcNow;
+        }
     }
 }

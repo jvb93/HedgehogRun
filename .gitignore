@@ -243,3 +243,5 @@ ArduinoCode/Secrets\.h
 Site/node_modules/
 
 Site/wwwroot/dist/
+
+Site/appsettings\.json

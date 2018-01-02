@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using HedgehogRun.Entities;
+using HedgehogRun.EntityFramework;
 using HedgehogRun.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,18 @@ namespace HedgehogRun.Controllers
     [Route("api/HogLog")]
     public class HogLogController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+        public HogLogController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public ActionResult Get()
         {
-            JObject toReturn = new JObject();
-            toReturn.Add("Test", "Hello, World!");
-            return Content(toReturn.ToString(), MimeTypeHelper.ApplicationJson);
+           
+           
+            return Content(JsonConvert.SerializeObject(_context.HogLogs.ToList()), MimeTypeHelper.ApplicationJson);
         }
 
         [HttpPost]
@@ -32,6 +40,8 @@ namespace HedgehogRun.Controllers
             {
                var content = reader.ReadToEnd();
                 var log = JsonConvert.DeserializeObject<HogLog>(content);
+                _context.HogLogs.Add(log);
+                _context.SaveChanges();
                 return Content(JsonConvert.SerializeObject(log), MimeTypeHelper.ApplicationJson);
 
             }
