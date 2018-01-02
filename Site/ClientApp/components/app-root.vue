@@ -4,7 +4,7 @@
             <div class="col-sm-3">
                 <nav-menu params="route: route"></nav-menu>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-9" style="height:100vh;">
                 <router-view></router-view>
             </div>
         </div>

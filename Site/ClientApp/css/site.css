@@ -3,6 +3,14 @@
 body {
     background-color: #1f1f1f;
     color: white;
+    height: 100vh;
+}
+
+#app {
+    height: 100vh;
+}
+html {
+    height: 100vh;
 }
 .main-nav li .glyphicon {
     margin-right: 10px;
@@ -15,6 +23,20 @@ body {
     background-color: #D4FF2C;
     color: black;
 }
+
+.massive {
+    font-family: 'Anton', sans-serif;
+    font-size: 100px;
+  
+    
+}
+.massivewrapper {
+    top: 50%;
+    margin-top: -55px;
+    position: absolute;
+                
+}
+
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
