@@ -17,9 +17,9 @@ html {
 }
 
 /* Highlighting rules for nav menu items */
-.main-nav li a.router-link-active,
-.main-nav li a.router-link-active:hover,
-.main-nav li a.router-link-active:focus {
+.main-nav li a.router-link-exact-active,
+.main-nav li a.router-link-exact-active:hover,
+.main-nav li a.router-link-exact-active:focus {
     background-color: #D4FF2C;
     color: black;
 }
