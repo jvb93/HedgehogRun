@@ -36,15 +36,19 @@ namespace HedgehogRun.Controllers
         [HttpPost]
         public ActionResult Post()
         {
-            using (var reader = new StreamReader(Request.Body))
-            {
-               var content = reader.ReadToEnd();
-                var log = JsonConvert.DeserializeObject<HogLog>(content);
-                _context.HogLogs.Add(log);
-                _context.SaveChanges();
-                return Content(JsonConvert.SerializeObject(log), MimeTypeHelper.ApplicationJson);
+           
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    var content = reader.ReadToEnd();
+                    var log = JsonConvert.DeserializeObject<HogLog>(content);
+                    _context.HogLogs.Add(log);
+                    _context.SaveChanges();
+                    return Content(JsonConvert.SerializeObject(log), MimeTypeHelper.ApplicationJson);
 
-            }
+                }
+            
+         
+          
 
         }
     }
