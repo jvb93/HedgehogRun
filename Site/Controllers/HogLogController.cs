@@ -26,11 +26,26 @@ namespace HedgehogRun.Controllers
             _context = context;
         }
 
+       
+
         public ActionResult Get()
         {
-           
-           
-            return Content(JsonConvert.SerializeObject(_context.HogLogs.ToList()), MimeTypeHelper.ApplicationJson);
+
+            var current = _context.HogLogs.OrderByDescending(x => x.PostTime).Take(1).FirstOrDefault();
+
+            JObject toReturn = new JObject();
+            if (current != null)
+            {
+                toReturn.Add("temperature", current.TemperatureF);
+                toReturn.Add("humidity", current.Humidity);
+            }
+            else
+            {
+                toReturn.Add("temperature", 0);
+                toReturn.Add("humidity", 0);
+            }
+          
+            return Content(toReturn.ToString(), MimeTypeHelper.ApplicationJson);
         }
 
         [HttpPost]
