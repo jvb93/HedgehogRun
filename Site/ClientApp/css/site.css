@@ -24,11 +24,30 @@ html {
     color: black;
 }
 
-.massive {
+.font-anton {
     font-family: 'Anton', sans-serif;
-    font-size: 100px;
-  
-    
+    font-style: italic;
+
+}
+
+.font-pathway {
+    font-family: 'Pathway Gothic One', sans-serif;
+    text-transform: uppercase;
+
+}
+.font-100 {
+    font-size: 100px;   
+}
+
+.font-75 {
+    font-size: 75px;
+}
+
+.font-50 {
+    font-size: 50px;
+}
+.color-green {
+    color:#d4ff2c
 }
 .massivewrapper {
     top: 50%;
@@ -36,7 +55,16 @@ html {
     position: absolute;
                 
 }
+.vertical-align {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
 
+.panel {
+    background-color: #111;
+}
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {

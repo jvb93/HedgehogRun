@@ -1,27 +1,125 @@
 <template>
     <div>
-    <h1>{{prettyTemperature}}&deg;F</h1>
-
-        <radial-progress-bar :diameter="200"
-                             :startColor="'#D4FF2C'"
-                             :completed-steps="prettyHumidity"
-                             :animateSpeed="250"
-                             :total-steps="100">
-            <p>Current Humidity: {{ prettyHumidity }}%</p>
+        <h1 class="text-center font-pathway font-50">Dashboard</h1> 
+        <div class="row">
+            <div class="clearfix">
+                <div class="col-xs-12 col-md-6 col-md-push-3">
+                    <radial-progress-bar :diameter="400"
+                                         :startColor="'#D4FF2C'"
+                                         :completed-steps="speedData.currentSpeed"
+                                         :animateSpeed="250"
+                                         :total-steps="speedData.topSpeed" style="left:50%; margin-left:-200px;">
+                        <h1 class="font-anton font-75">{{ speedData.currentSpeed }} MPH</h1>
+                        <small class="text-muted">Current Speed</small>
           
-        </radial-progress-bar>
+                    </radial-progress-bar>
+                </div>
+    
+                <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
+                    <h1 class="font-pathway font-50">{{prettyTemperature}}&deg;F</h1>
+                    <small class="text-muted">Current Temperature</small>
+                </div>    
+    
+                <div class="col-xs-6 col-md-3 text-center">
+                    <h1 class="font-pathway font-50">{{prettyHumidity}}%</h1>
+                    <small class="text-muted">Current Humidity</small>
+                </div>
+    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="font-pathway">Atmospheric Data, Last 12h</h1>
+
+                <div class="panel">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <highcharts :options="options" ref="highcharts"></highcharts>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
    
 </template>
 
 <script>
     import { mapActions, mapState } from 'vuex'
     import RadialProgressBar from 'vue-radial-progress/dist/vue-radial-progress.min.js'
+    import VueHighcharts from 'vue-highcharts';
+    import Highcharts from 'highcharts';
     export default {
         data: function() {
             return {
                 currentHumidity: 0,
-                currentTemperature: 0
+                currentTemperature: 0,
+                speedData: {
+                    topSpeed: 0,
+                    currentSpeed:0
+                },
+                options: {
+                    title: {
+                        text: '',
+                        x: -20 //center
+                    },
+                    
+                    subtitle: {
+                        text: '',
+                        x: -20
+                    },
+                    xAxis: {
+                        type: 'datetime'
+
+                    },
+                    yAxis: [
+                            { // Primary yAxis
+                            labels:{
+                                format: '{value}°C',
+                                style: {
+                                    color: Highcharts.getOptions().colors[1]
+                                }
+                                },
+                                title: {
+                                    text: 'Temperature',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                },
+                                opposite: true
+
+                            }, { // Secondary yAxis
+                                title: {
+                                    text: 'Humidity',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                },
+                                labels: {
+                                    format: '{value} %',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                }
+                            }
+                    ],
+                    tooltip: {
+                        shared: true
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                   
+                 
+                    series: [],
+                    
+                }
             }
         },
         components: {
@@ -38,14 +136,23 @@
 
         methods: {
             getAtmosphericData: function () {
-                this.$http.get('/api/hoglog').then(response => {
-                    console.log(response);
+                this.$http.get('/api/currentatmospheric').then(response => {
                     // get body data
                     this.currentHumidity = response.data.humidity;
                     this.currentTemperature = response.data.temperature;
 
                 }, response => {
                     // error callback
+                    });
+
+                this.$http.get('/api/historicalatmospheric').then(response => {
+                    // get body data
+                    this.options.series = [];
+                    this.options.series.push(response.data.humidity);
+                    this.options.series.push(response.data.temperature);
+
+                    }, response => {
+                // error callback
                 });
             }
 
@@ -53,11 +160,10 @@
 
         mounted: function () {
            this.getAtmosphericData();
-            setInterval(this.getAtmosphericData, 6000);
+            setInterval(this.getAtmosphericData, 60000);
             
         }
     }
 </script>
 
-<style>
-</style>
+

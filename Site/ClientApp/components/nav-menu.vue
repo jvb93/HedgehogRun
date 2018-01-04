@@ -20,6 +20,12 @@
                                 <span :class="route.style"></span> {{ route.display }}
                             </router-link>
                         </li>
+                        <li>
+                            <a href="https://twitter.com/hedgehog_run">
+                                <i class="fa fa-twitter"></i> 
+                                Twitter
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </transition>
