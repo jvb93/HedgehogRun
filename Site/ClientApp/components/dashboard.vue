@@ -1,14 +1,14 @@
 <template>
     <div>
-        <h1 class="text-center font-pathway font-75">Dashboard</h1> 
+        <h1 class="text-center font-pathway font-50">Dashboard</h1> 
         <div class="row">
             <div class="clearfix">
                 <div class="col-xs-12 col-md-6 col-md-push-3">
-                    <radial-progress-bar :diameter="400"
+                    <radial-progress-bar :diameter="350"
                                          :startColor="'#D4FF2C'"
                                          :completed-steps="speedData.currentSpeed"
                                          :animateSpeed="250"
-                                         :total-steps="speedData.topSpeed" style="left:50%; margin-left:-200px;">
+                                         :total-steps="speedData.topSpeed" style="left:50%; margin-left:-175px;">
                         <h1 class="font-anton font-75">{{ speedData.currentSpeed }} MPH</h1>
                         <small class="text-muted">Current Speed (simulated)</small>
           
