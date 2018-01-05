@@ -1,10 +1,10 @@
 <template>
     <div id="app" class="container-fluid">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <nav-menu params="route: route"></nav-menu>
             </div>
-            <div class="col-sm-9" style="height:100vh;">
+            <div class="col-sm-10" style="height:100vh;">
                 <router-view></router-view>
             </div>
         </div>
@@ -14,23 +14,70 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import CounterExample from './counter-example'
-import FetchData from './fetch-data'
-import HomePage from './home-page'
-import NavMenu from './nav-menu'
+    import Vue from 'vue'
+    import Dashboard from './dashboard'
+    import FetchData from './fetch-data'
+    import HomePage from './home-page'
+    import NavMenu from './nav-menu'
 
-Vue.component('counter-example', CounterExample);
-Vue.component('fetch-data', FetchData);
-Vue.component('home-page', HomePage);
-Vue.component('nav-menu', NavMenu);
+    Vue.component('dashboard', Dashboard);
+    Vue.component('fetch-data', FetchData);
+    Vue.component('home-page', HomePage);
+    Vue.component('nav-menu', NavMenu);
+    import VueHighcharts from 'vue-highcharts';
+    import Highcharts from 'highcharts';
+    Vue.use(VueHighcharts);
 
-export default {
-    data() {
-        return {
+    export default {
+        data() {
+            return {
+            }
         }
     }
-}
+
+    Highcharts.setOptions({
+        colors: ['#d4ff2c', '#24CBE5', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        global: {
+            useUTC: false
+        },
+        chart: {
+            backgroundColor: 'transparent',
+            style: {
+                fontFamily: 'sans-serif',
+                color:'white'
+            }
+        },
+        legend: {
+           
+        },
+        tooltip: {
+            shared: true,
+            backgroundColor: '#333',
+            style: {
+                color:'white'
+            }
+            
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            borderWidth: 0,
+            floating: true,
+            margin: 24,
+            padding: 16,
+            backgroundColor: '#333',
+            itemStyle: {
+                color:'white'
+            },
+            itemHiddenStyle: {
+                color:'#222'
+            }
+        
+        },
+        
+    });
+
 </script>
 
 <style>
