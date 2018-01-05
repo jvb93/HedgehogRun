@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="text-center font-pathway font-50">Dashboard</h1> 
+        <h1 class="text-center font-pathway font-75">Dashboard</h1> 
         <div class="row">
             <div class="clearfix">
                 <div class="col-xs-12 col-md-6 col-md-push-3">
@@ -10,18 +10,18 @@
                                          :animateSpeed="250"
                                          :total-steps="speedData.topSpeed" style="left:50%; margin-left:-200px;">
                         <h1 class="font-anton font-75">{{ speedData.currentSpeed }} MPH</h1>
-                        <small class="text-muted">Current Speed</small>
+                        <small class="text-muted">Current Speed (simulated)</small>
           
                     </radial-progress-bar>
                 </div>
     
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
-                    <h1 class="font-pathway font-50">{{prettyTemperature}}&deg;F</h1>
+                    <h1 class="font-pathway font-75">{{prettyTemperature}}&deg;F</h1>
                     <small class="text-muted">Current Temperature</small>
                 </div>    
     
                 <div class="col-xs-6 col-md-3 text-center">
-                    <h1 class="font-pathway font-50">{{prettyHumidity}}%</h1>
+                    <h1 class="font-pathway font-75">{{prettyHumidity}}%</h1>
                     <small class="text-muted">Current Humidity</small>
                 </div>
     
@@ -73,7 +73,7 @@
                 currentHumidity: 0,
                 currentTemperature: 0,
                 speedData: {
-                    topSpeed: 0,
+                    topSpeed: 10,
                     currentSpeed:0
                 },
                 options: {
@@ -203,6 +203,9 @@
                 }, response => {
                     console.log(response);
                 });
+            },
+            setRandomSpeed: function () {
+                this.speedData.currentSpeed = parseInt((Math.random() * (10 - 0) + 0).toFixed(2));
             }
         },
 
@@ -210,9 +213,12 @@
             this.getAtmosphericData();
             this.getHistoricalAtmosphericData();
             this.getHistoricalSpeedData();
+            this.setRandomSpeed();
             setInterval(this.getAtmosphericData, 60000);
             setInterval(this.getHistoricalAtmosphericData, 60000);
             setInterval(this.getHistoricalSpeedData, 60000);
+            setInterval(this.setRandomSpeed, 5000);
+
             
         }
     }
