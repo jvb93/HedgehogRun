@@ -29,6 +29,21 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+                <h1 class="font-pathway">Speed Data, Last 12h</h1>
+
+                <div class="panel">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <highcharts :options="speedOptions" ref="highcharts"></highcharts>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <h1 class="font-pathway">Atmospheric Data, Last 12h</h1>
 
                 <div class="panel">
@@ -73,7 +88,6 @@
                     },
                     xAxis: {
                         type: 'datetime'
-
                     },
                     yAxis: [
                             { // Primary yAxis
@@ -105,20 +119,45 @@
                                     }
                                 }
                             }
-                    ],
-                    tooltip: {
-                        shared: true
+                    ],                 
+                    series: [],            
+                },
+                speedOptions: {
+                    chart: {
+                        type: 'area'
                     },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        borderWidth: 0
+                    title: {
+                        text: '',
+                        x: -20 //center
+                    },                 
+                    subtitle: {
+                        text: '',
+                        x: -20
                     },
-                   
-                 
-                    series: [],
-                    
+                    xAxis: {
+                        type: 'datetime'
+
+                    },
+                    plotOptions: {
+                        fillColor: Highcharts.getOptions().colors[0]
+                    },
+                yAxis:{ // Primary yAxis
+                    labels:{
+                        format: '{value} MPH',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    title: {
+                        text: 'Speed',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    min: 0,
+                    opposite: true
+                },                 
+                series: [],             
                 }
             }
         },
@@ -142,25 +181,38 @@
                     this.currentTemperature = response.data.temperature;
 
                 }, response => {
-                    // error callback
-                    });
-
+                    console.log(response);
+                });        
+            },
+            getHistoricalAtmosphericData: function () {
                 this.$http.get('/api/historicalatmospheric').then(response => {
-                    // get body data
-                    this.options.series = [];
-                    this.options.series.push(response.data.humidity);
-                    this.options.series.push(response.data.temperature);
+                // get body data
+                this.options.series = [];
+                this.options.series.push(response.data.humidity);
+                this.options.series.push(response.data.temperature);
 
-                    }, response => {
-                // error callback
+                }, response => {
+                    console.log(response);
+                });
+            },
+            getHistoricalSpeedData: function () {
+                this.$http.get('/api/historicalspeed').then(response => {
+                    this.speedOptions.series = [];
+                    this.speedOptions.series.push(response.data.ticks);
+
+                }, response => {
+                    console.log(response);
                 });
             }
-
         },
 
         mounted: function () {
-           this.getAtmosphericData();
+            this.getAtmosphericData();
+            this.getHistoricalAtmosphericData();
+            this.getHistoricalSpeedData();
             setInterval(this.getAtmosphericData, 60000);
+            setInterval(this.getHistoricalAtmosphericData, 60000);
+            setInterval(this.getHistoricalSpeedData, 60000);
             
         }
     }

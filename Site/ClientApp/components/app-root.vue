@@ -48,19 +48,33 @@
             }
         },
         legend: {
+           
+        },
+        tooltip: {
+            shared: true,
+            backgroundColor: '#333',
+            style: {
+                color:'white'
+            }
+            
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            borderWidth: 0,
+            floating: true,
+            margin: 24,
+            padding: 16,
+            backgroundColor: '#333',
             itemStyle: {
                 color:'white'
             },
             itemHiddenStyle: {
                 color:'#222'
             }
+        
         },
-        tooltip: {
-            backgroundColor: '#333',
-            style: {
-                color:'white'
-            }
-        }
         
     });
 
