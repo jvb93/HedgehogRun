@@ -14,23 +14,56 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import Dashboard from './dashboard'
-import FetchData from './fetch-data'
-import HomePage from './home-page'
-import NavMenu from './nav-menu'
+    import Vue from 'vue'
+    import Dashboard from './dashboard'
+    import FetchData from './fetch-data'
+    import HomePage from './home-page'
+    import NavMenu from './nav-menu'
 
     Vue.component('dashboard', Dashboard);
-Vue.component('fetch-data', FetchData);
-Vue.component('home-page', HomePage);
-Vue.component('nav-menu', NavMenu);
+    Vue.component('fetch-data', FetchData);
+    Vue.component('home-page', HomePage);
+    Vue.component('nav-menu', NavMenu);
+    import VueHighcharts from 'vue-highcharts';
+    import Highcharts from 'highcharts';
+    Vue.use(VueHighcharts);
 
-export default {
-    data() {
-        return {
+    export default {
+        data() {
+            return {
+            }
         }
     }
-}
+
+    Highcharts.setOptions({
+        colors: ['#d4ff2c', '#24CBE5', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        global: {
+            useUTC: false
+        },
+        chart: {
+            backgroundColor: 'transparent',
+            style: {
+                fontFamily: 'sans-serif',
+                color:'white'
+            }
+        },
+        legend: {
+            itemStyle: {
+                color:'white'
+            },
+            itemHiddenStyle: {
+                color:'#222'
+            }
+        },
+        tooltip: {
+            backgroundColor: '#333',
+            style: {
+                color:'white'
+            }
+        }
+        
+    });
+
 </script>
 
 <style>
