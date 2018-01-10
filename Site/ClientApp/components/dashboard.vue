@@ -43,20 +43,32 @@
 
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <h1 class="font-pathway">Atmospheric Data, Last 12h</h1>
+            <div class="col-md-6 col-xs-12">
+                <h1 class="font-pathway">Temperature, Last 12h</h1>
 
                 <div class="panel">
                     <div class="panel-heading"></div>
                     <div class="panel-body">
-                        <highcharts :options="options" ref="highcharts"></highcharts>
+                        <highcharts :options="temperatureOptions" ref="highcharts"></highcharts>
 
                     </div>
                 </div>
 
             </div>
+            <div class="col-md-6 col-xs-12">
+                <h1 class="font-pathway">Humidity, Last 12h</h1>
 
+                <div class="panel">
+                    <div class="panel-heading"></div>
+                    <div class="panel-body">
+                        <highcharts :options="humidityOptions" ref="highcharts"></highcharts>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
+        <div class="col-md-12 text-right"><small class="text-muted">Data is current as of: {{prettyDate}}</small></div>
     </div>
 
    
@@ -72,11 +84,12 @@
             return {
                 currentHumidity: 0,
                 currentTemperature: 0,
+                lastUpdated :'',
                 speedData: {
                     topSpeed: 10,
                     currentSpeed:0
                 },
-                options: {
+                temperatureOptions: {
                     title: {
                         text: '',
                         x: -20 //center
@@ -92,7 +105,7 @@
                     yAxis: [
                             { // Primary yAxis
                             labels:{
-                                format: '{value}°C',
+                                format: '{value}°F',
                                 style: {
                                     color: Highcharts.getOptions().colors[1]
                                 }
@@ -103,24 +116,56 @@
                                         color: Highcharts.getOptions().colors[1]
                                     }
                                 },
-                                opposite: true
+                                opposite: false
 
-                            }, { // Secondary yAxis
-                                title: {
-                                    text: 'Humidity',
-                                    style: {
-                                        color: Highcharts.getOptions().colors[0]
-                                    }
-                                },
-                                labels: {
-                                    format: '{value} %',
-                                    style: {
-                                        color: Highcharts.getOptions().colors[0]
-                                    }
-                                }
-                            }
+                            },
                     ],                 
-                    series: [],            
+                    series: [],
+                    plotOptions: {
+                        series: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                },
+                humidityOptions: {
+                    title: {
+                        text: '',
+                        x: -20 //center
+                    },
+
+                    subtitle: {
+                        text: '',
+                        x: -20
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                       
+                    },
+                    yAxis: [
+                        { // Primary yAxis
+                            labels: {
+                                format: '{value}%',
+                                style: {
+                                    color: Highcharts.getOptions().colors[2]
+                                }
+                            },
+                            title: {
+                                text: 'Humidity',
+                                style: {
+                                    color: Highcharts.getOptions().colors[2]
+                                }
+                            },
+                            opposite: false
+
+                        },
+                    ],
+                    series: [],
+                    plotOptions: {
+                        series: {
+                            color: Highcharts.getOptions().colors[2]
+                        }
+                    },
+                 
                 },
                 speedOptions: {
                     chart: {
@@ -170,6 +215,15 @@
             },
             prettyTemperature: function () {
                 return Math.round(this.currentTemperature);
+            },
+            prettyDate: function () {
+                var time = this.lastUpdated;
+                if (!isNaN(parseFloat(time)) && isFinite(time)) {
+
+                    var d = new Date(time);
+                    return d.toLocaleString();
+                }
+                return time;
             }
         },
 
@@ -179,6 +233,7 @@
                     // get body data
                     this.currentHumidity = response.data.humidity;
                     this.currentTemperature = response.data.temperature;
+                    this.lastUpdated = response.data.lastUpdated;
 
                 }, response => {
                     console.log(response);
@@ -187,9 +242,10 @@
             getHistoricalAtmosphericData: function () {
                 this.$http.get('/api/historicalatmospheric').then(response => {
                 // get body data
-                this.options.series = [];
-                this.options.series.push(response.data.humidity);
-                this.options.series.push(response.data.temperature);
+                this.temperatureOptions.series = [];
+                this.humidityOptions.series = [];
+                this.humidityOptions.series.push(response.data.humidity);
+                this.temperatureOptions.series.push(response.data.temperature);
 
                 }, response => {
                     console.log(response);

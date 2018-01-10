@@ -32,11 +32,13 @@ namespace HedgehogRun.Controllers
             {
                 toReturn.Add("temperature", current.TemperatureF);
                 toReturn.Add("humidity", current.Humidity);
+                toReturn.Add("lastUpdated", current.PostTime.ToUnixTime());
             }
             else
             {
                 toReturn.Add("temperature", 0);
                 toReturn.Add("humidity", 0);
+                toReturn.Add("lastUpdated", "never");
             }
 
             return Content(toReturn.ToString(), MimeTypeHelper.ApplicationJson);

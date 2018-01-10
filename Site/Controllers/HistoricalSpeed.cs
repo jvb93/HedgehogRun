@@ -43,7 +43,7 @@ namespace HedgehogRun.Controllers
                 foreach (HogLog hogLog in pastTwelveHourLogs)
                 {
                     JArray ticksDataPoint = new JArray();
-                    ticksDataPoint.Add(hogLog.PostTime);
+                    ticksDataPoint.Add(hogLog.PostTime.ToUnixTime());
                     ticksDataPoint.Add(hogLog.Ticks);
                     tickData.Add(ticksDataPoint);               
                 }

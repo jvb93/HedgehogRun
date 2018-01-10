@@ -12,6 +12,7 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.6.3",
     "highcharts": "^6.0.4",
+    "moment": "^2.20.1",
     "vue": "^2.1.8",
     "vue-highcharts": "0.0.10",
     "vue-radial-progress": "^0.2.10",

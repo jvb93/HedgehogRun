@@ -49,12 +49,12 @@ namespace HedgehogRun.Controllers
                 foreach (HogLog hogLog in pastTwelveHourAtmospheric)
                 {
                     JArray temperatureDataPoint = new JArray();
-                    temperatureDataPoint.Add(hogLog.PostTime);
+                    temperatureDataPoint.Add(hogLog.PostTime.ToUnixTime());
                     temperatureDataPoint.Add(hogLog.TemperatureF);
                     temperatureData.Add(temperatureDataPoint);
 
                     JArray humidityDataPoint = new JArray();
-                    humidityDataPoint.Add(hogLog.PostTime);
+                    humidityDataPoint.Add(hogLog.PostTime.ToUnixTime());
                     humidityDataPoint.Add(hogLog.Humidity);
                     humidityData.Add(humidityDataPoint);
                 }
@@ -78,7 +78,7 @@ namespace HedgehogRun.Controllers
 
             toReturn.Add("temperature", temperature);
             toReturn.Add("humidity", humidity);
-            
+        
             return Content(toReturn.ToString(), MimeTypeHelper.ApplicationJson);
         }
 
