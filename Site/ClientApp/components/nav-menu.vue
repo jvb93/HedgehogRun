@@ -27,7 +27,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="hhttps://github.com/jvb93/HedgehogRun">
+                            <a href="https://github.com/jvb93/HedgehogRun">
                                 <i class="fa fa-github"></i>
                                 GitHub
                             </a>
