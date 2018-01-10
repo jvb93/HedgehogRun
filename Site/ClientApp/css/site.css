@@ -100,6 +100,9 @@ html {
     body {
         padding-top: 50px;
     }
+    .navbar {
+        margin-bottom: 5px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -139,5 +142,6 @@ html {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+   
 }
 

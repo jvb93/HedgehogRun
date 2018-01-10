@@ -22,8 +22,14 @@
                         </li>
                         <li>
                             <a href="https://twitter.com/hedgehog_run">
-                                <i class="fa fa-twitter"></i> 
+                                <i class="fa fa-twitter"></i>
                                 Twitter
+                            </a>
+                        </li>
+                        <li>
+                            <a href="hhttps://github.com/jvb93/HedgehogRun">
+                                <i class="fa fa-github"></i>
+                                GitHub
                             </a>
                         </li>
                     </ul>

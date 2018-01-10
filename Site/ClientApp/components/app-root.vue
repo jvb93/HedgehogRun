@@ -66,7 +66,7 @@
             floating: true,
             margin: 24,
             padding: 16,
-            backgroundColor: '#333',
+            backgroundColor: 'rgba(64,64,64,.8)',
             itemStyle: {
                 color:'white'
             },
