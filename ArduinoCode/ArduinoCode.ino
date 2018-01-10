@@ -18,8 +18,8 @@ HTTPClient http;
 const char* host = "http://hedgehog.run/api/hoglog";
 const char* ssid     = SSID;
 const char* password = WIFI_PASS;
-
-
+const byte interruptPin = 0;
+volatile int interruptCounter = 0;
 void setup()
 {
   Serial.begin(9600);
@@ -28,6 +28,10 @@ void setup()
     Serial.println("Couldn't find SHT31");
     while (1) delay(1);
   }
+
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), handleInterrupt, RISING);
+  
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -48,7 +52,6 @@ void setup()
 
 void loop()
 {
-  
   float t = sht31.readTemperature();
   float h = sht31.readHumidity();
 
@@ -72,11 +75,11 @@ void loop()
   
  
 
-   StaticJsonBuffer<200> jsonBuffer;
-   JsonObject& root = jsonBuffer.createObject();
-   root["TemperatureF"] = (t * 9.0) / 5.0 + 32;;
-    root["Ticks"] = 0;
-        root["Humidity"] = h;
+  StaticJsonBuffer<200> jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject();
+  root["TemperatureF"] = (t * 9.0) / 5.0 + 32;;
+  root["Ticks"] = interruptCounter;
+  root["Humidity"] = h;
 
 
    String data = "";
@@ -92,9 +95,13 @@ void loop()
    Serial.println(payload);    //Print request response payload
  
    http.end();  //Close connection
- 
+   interruptCounter = 0;
+
  
   delay(60000);
 }
 
+void handleInterrupt() {
+  interruptCounter++;
+}
 
