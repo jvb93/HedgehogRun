@@ -9,8 +9,8 @@
                                          :completed-steps="speedData.currentSpeed"
                                          :animateSpeed="250"
                                          :total-steps="speedData.topSpeed" style="left:50%; margin-left:-175px;">
-                        <h1 class="font-anton font-75">{{ speedData.currentSpeed }} MPH</h1>
-                        <small class="text-muted">Current Speed (simulated)</small>
+                        <h1 class="font-anton font-50">{{ roundToTwoPlaces(speedData.currentSpeed) }} MPH</h1>
+                        <small class="text-muted">Current Speed</small>
           
                     </radial-progress-bar>
                 </div>
@@ -86,7 +86,7 @@
                 currentTemperature: 0,
                 lastUpdated :'',
                 speedData: {
-                    topSpeed: 10,
+                    topSpeed: 0,
                     currentSpeed:0
                 },
                 temperatureOptions: {
@@ -188,7 +188,10 @@
                     },
                 yAxis:{ // Primary yAxis
                     labels:{
-                        format: '{value} MPH',
+                        formatter: function () {
+                            return convertTicksToMph(this.value).toFixed(2) + " MPH";
+                        },
+                       
                         style: {
                             color: Highcharts.getOptions().colors[0]
                         }
@@ -202,7 +205,13 @@
                     min: 0,
                     opposite: true
                 },                 
-                series: [],             
+                series: [],
+                tooltip: {
+                    pointFormatter: function () {
+                        return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + convertTicksToMph(this.y).toFixed(2) + ' MPH</b> <br />'
+
+                    }
+                }
                 }
             }
         },
@@ -239,6 +248,7 @@
                     console.log(response);
                 });        
             },
+          
             getHistoricalAtmosphericData: function () {
                 this.$http.get('/api/historicalatmospheric').then(response => {
                 // get body data
@@ -260,23 +270,41 @@
                     console.log(response);
                 });
             },
+            getCurrentSpeed: function () {
+                this.$http.get('/api/currentspeed').then(response => {
+                    this.speedData.currentSpeed = convertTicksToMph(response.data.current);
+                    this.speedData.topSpeed = convertTicksToMph(response.data.max);
+
+                }, response => {
+                    console.log(response);
+                });
+            },
             setRandomSpeed: function () {
                 this.speedData.currentSpeed = parseInt((Math.random() * (10 - 0) + 0).toFixed(2));
+            },
+            roundToTwoPlaces: function (value) {
+                return value.toFixed(2);
             }
+           
         },
 
         mounted: function () {
             this.getAtmosphericData();
             this.getHistoricalAtmosphericData();
             this.getHistoricalSpeedData();
-            this.setRandomSpeed();
+            this.getCurrentSpeed();
             setInterval(this.getAtmosphericData, 60000);
             setInterval(this.getHistoricalAtmosphericData, 60000);
             setInterval(this.getHistoricalSpeedData, 60000);
-            setInterval(this.setRandomSpeed, 5000);
+            setInterval(this.getCurrentSpeed,60000);
 
             
         }
+    }
+
+    function convertTicksToMph(ticks) {
+        var distance = ((ticks * 2 * 3.14 * 5.25) / 12);
+        return distance * 0.0113636;
     }
 </script>
 
