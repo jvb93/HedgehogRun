@@ -43,6 +43,10 @@ html {
     font-size: 75px;
 }
 
+.font-66 {
+    font-size: 66px;
+}
+
 .font-50 {
     font-size: 50px;
 }
@@ -142,6 +146,15 @@ html {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+   
    
 }
+
+@media (min-width: 992px) {
+    .centerHack {
+        margin-top: 128px;
+    }
+}
+
 

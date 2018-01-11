@@ -9,19 +9,19 @@
                                          :completed-steps="speedData.currentSpeed"
                                          :animateSpeed="250"
                                          :total-steps="speedData.topSpeed" style="left:50%; margin-left:-175px;">
-                        <h1 class="font-anton font-50">{{ roundToTwoPlaces(speedData.currentSpeed) }} MPH</h1>
+                        <h1 class="font-anton font-66">{{ roundToTwoPlaces(speedData.currentSpeed) }} MPH</h1>
                         <small class="text-muted">Current Speed</small>
           
                     </radial-progress-bar>
                 </div>
     
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
-                    <h1 class="font-pathway font-75">{{prettyTemperature}}&deg;F</h1>
+                    <h1 class="font-pathway font-75 centerHack">{{prettyTemperature}}&deg;F</h1>
                     <small class="text-muted">Current Temperature</small>
                 </div>    
     
                 <div class="col-xs-6 col-md-3 text-center">
-                    <h1 class="font-pathway font-75">{{prettyHumidity}}%</h1>
+                    <h1 class="font-pathway font-75 centerHack">{{prettyHumidity}}%</h1>
                     <small class="text-muted">Current Humidity</small>
                 </div>
     

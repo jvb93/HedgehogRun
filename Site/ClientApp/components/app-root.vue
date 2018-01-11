@@ -59,14 +59,7 @@
             
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            borderWidth: 0,
-            floating: true,
-            margin: 24,
-            padding: 16,
-            backgroundColor: 'rgba(64,64,64,.8)',
+           
             itemStyle: {
                 color:'white'
             },
