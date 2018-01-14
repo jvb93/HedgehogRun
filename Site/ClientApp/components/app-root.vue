@@ -45,8 +45,12 @@
             style: {
                 fontFamily: 'sans-serif',
                 color:'white'
-            }
+            },
+          
+            zoomType: 'x'
+            
         },
+
         legend: {
            
         },

@@ -203,7 +203,6 @@
                         }
                     },
                     min: 0,
-                    opposite: true
                 },                 
                 series: [],
                 tooltip: {
