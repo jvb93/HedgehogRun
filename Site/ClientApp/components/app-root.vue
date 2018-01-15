@@ -32,7 +32,8 @@
         data() {
             return {
             }
-        }
+        },
+
     }
 
     Highcharts.setOptions({

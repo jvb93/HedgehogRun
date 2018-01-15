@@ -13,6 +13,8 @@
                         <small class="text-muted">Current Speed</small>
           
                     </radial-progress-bar>
+                    <h3 class="font-anton text-center">{{roundToTwoPlaces(speedData.milesRanLastTwelevHours)}} </h3>
+                    <h4 class="text-center"><small> Miles ran, Last 12 Hours</small></h4>
                 </div>
     
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
@@ -87,7 +89,8 @@
                 lastUpdated :'',
                 speedData: {
                     topSpeed: 0,
-                    currentSpeed:0
+                    currentSpeed: 0,
+                    milesRanLastTwelevHours:0
                 },
                 temperatureOptions: {
                     title: {
@@ -278,6 +281,13 @@
                     console.log(response);
                 });
             },
+            getTicksForLastTwelveHours: function () {
+                this.$http.get('/api/TicksLastTwelveHours').then(response => {
+                    this.speedData.milesRanLastTwelevHours = convertTicksToMiles(response.data.ticks);
+                }, response => {
+                    console.log(response);
+                });
+            },
             setRandomSpeed: function () {
                 this.speedData.currentSpeed = parseInt((Math.random() * (10 - 0) + 0).toFixed(2));
             },
@@ -292,10 +302,12 @@
             this.getHistoricalAtmosphericData();
             this.getHistoricalSpeedData();
             this.getCurrentSpeed();
+            this.getTicksForLastTwelveHours();
             setInterval(this.getAtmosphericData, 60000);
             setInterval(this.getHistoricalAtmosphericData, 60000);
             setInterval(this.getHistoricalSpeedData, 60000);
             setInterval(this.getCurrentSpeed,60000);
+            setInterval(this.getTicksForLastTwelveHours,60000);
 
             
         }
@@ -304,6 +316,9 @@
     function convertTicksToMph(ticks) {
         var distance = ((ticks * 2 * 3.14 * 5.25) / 12);
         return distance * 0.0113636;
+    }
+    function convertTicksToMiles(ticks) {
+        return ((ticks * 2 * 3.14 * 5.25) / 12) / 5280;
     }
 </script>
 

@@ -50,8 +50,25 @@ html {
 .font-50 {
     font-size: 50px;
 }
+ .mt50 {
+     margin-top: 50px;
+ }
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #222;
+}
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
 .color-green {
-    color:#d4ff2c
+    color: #d4ff2c
 }
 .massivewrapper {
     top: 50%;
