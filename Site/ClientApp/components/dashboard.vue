@@ -9,19 +9,21 @@
                                          :completed-steps="speedData.currentSpeed"
                                          :animateSpeed="250"
                                          :total-steps="speedData.topSpeed" style="left:50%; margin-left:-175px;">
-                        <h1 class="font-anton font-75">{{ speedData.currentSpeed }} MPH</h1>
-                        <small class="text-muted">Current Speed (simulated)</small>
+                        <h1 class="font-anton font-66">{{ roundToTwoPlaces(speedData.currentSpeed) }} MPH</h1>
+                        <small class="text-muted">Current Speed</small>
           
                     </radial-progress-bar>
+                    <h3 class="font-anton text-center">{{roundToTwoPlaces(speedData.milesRanLastTwelevHours)}} </h3>
+                    <h4 class="text-center"><small> Miles ran, Last 12 Hours</small></h4>
                 </div>
     
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
-                    <h1 class="font-pathway font-75">{{prettyTemperature}}&deg;F</h1>
+                    <h1 class="font-pathway font-75 centerHack">{{prettyTemperature}}&deg;F</h1>
                     <small class="text-muted">Current Temperature</small>
                 </div>    
     
                 <div class="col-xs-6 col-md-3 text-center">
-                    <h1 class="font-pathway font-75">{{prettyHumidity}}%</h1>
+                    <h1 class="font-pathway font-75 centerHack">{{prettyHumidity}}%</h1>
                     <small class="text-muted">Current Humidity</small>
                 </div>
     
@@ -86,8 +88,9 @@
                 currentTemperature: 0,
                 lastUpdated :'',
                 speedData: {
-                    topSpeed: 10,
-                    currentSpeed:0
+                    topSpeed: 0,
+                    currentSpeed: 0,
+                    milesRanLastTwelevHours:0
                 },
                 temperatureOptions: {
                     title: {
@@ -188,7 +191,10 @@
                     },
                 yAxis:{ // Primary yAxis
                     labels:{
-                        format: '{value} MPH',
+                        formatter: function () {
+                            return convertTicksToMph(this.value).toFixed(2) + " MPH";
+                        },
+                       
                         style: {
                             color: Highcharts.getOptions().colors[0]
                         }
@@ -200,9 +206,14 @@
                         }
                     },
                     min: 0,
-                    opposite: true
                 },                 
-                series: [],             
+                series: [],
+                tooltip: {
+                    pointFormatter: function () {
+                        return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + convertTicksToMph(this.y).toFixed(2) + ' MPH</b> <br />'
+
+                    }
+                }
                 }
             }
         },
@@ -239,6 +250,7 @@
                     console.log(response);
                 });        
             },
+          
             getHistoricalAtmosphericData: function () {
                 this.$http.get('/api/historicalatmospheric').then(response => {
                 // get body data
@@ -260,23 +272,53 @@
                     console.log(response);
                 });
             },
+            getCurrentSpeed: function () {
+                this.$http.get('/api/currentspeed').then(response => {
+                    this.speedData.currentSpeed = convertTicksToMph(response.data.current);
+                    this.speedData.topSpeed = convertTicksToMph(response.data.max);
+
+                }, response => {
+                    console.log(response);
+                });
+            },
+            getTicksForLastTwelveHours: function () {
+                this.$http.get('/api/TicksLastTwelveHours').then(response => {
+                    this.speedData.milesRanLastTwelevHours = convertTicksToMiles(response.data.ticks);
+                }, response => {
+                    console.log(response);
+                });
+            },
             setRandomSpeed: function () {
                 this.speedData.currentSpeed = parseInt((Math.random() * (10 - 0) + 0).toFixed(2));
+            },
+            roundToTwoPlaces: function (value) {
+                return value.toFixed(2);
             }
+           
         },
 
         mounted: function () {
             this.getAtmosphericData();
             this.getHistoricalAtmosphericData();
             this.getHistoricalSpeedData();
-            this.setRandomSpeed();
+            this.getCurrentSpeed();
+            this.getTicksForLastTwelveHours();
             setInterval(this.getAtmosphericData, 60000);
             setInterval(this.getHistoricalAtmosphericData, 60000);
             setInterval(this.getHistoricalSpeedData, 60000);
-            setInterval(this.setRandomSpeed, 5000);
+            setInterval(this.getCurrentSpeed,60000);
+            setInterval(this.getTicksForLastTwelveHours,60000);
 
             
         }
+    }
+
+    function convertTicksToMph(ticks) {
+        var distance = ((ticks * 2 * 3.14 * 5.25) / 12);
+        return distance * 0.0113636;
+    }
+    function convertTicksToMiles(ticks) {
+        return ((ticks * 2 * 3.14 * 5.25) / 12) / 5280;
     }
 </script>
 
