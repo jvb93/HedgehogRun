@@ -12,10 +12,12 @@ namespace HedgehogRun.Entities
         public double TemperatureF { get; set; }
         public double Humidity { get; set; }
         public DateTime PostTime { get; set; }
+        public bool? DidReconnect  { get; set; }
 
         public HogLog()
         {
             PostTime = DateTime.UtcNow;
+            DidReconnect = false;
         }
     }
 }

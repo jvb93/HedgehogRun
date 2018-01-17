@@ -37,7 +37,7 @@
     }
 
     Highcharts.setOptions({
-        colors: ['#d4ff2c', '#24CBE5', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+        colors: ['#d4ff2c', '#24CBE5', '#ED561B', '#FFF', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
         global: {
             useUTC: false
         },

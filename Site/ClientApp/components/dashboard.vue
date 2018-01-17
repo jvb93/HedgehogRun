@@ -13,17 +13,19 @@
                         <small class="text-muted">Current Speed</small>
           
                     </radial-progress-bar>
-                    <h3 class="font-anton text-center">{{roundToTwoPlaces(speedData.milesRanLastTwelevHours)}} </h3>
-                    <h4 class="text-center"><small> Miles ran, Last 12 Hours</small></h4>
                 </div>
     
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
-                    <h1 class="font-pathway font-75 centerHack">{{prettyTemperature}}&deg;F</h1>
+                    <h1 class="font-pathway font-75 centerHack">
+                        <i-odometer class="font-pathway" :value="prettyTemperature"></i-odometer>&deg;F
+                    </h1>
                     <small class="text-muted">Current Temperature</small>
                 </div>    
     
                 <div class="col-xs-6 col-md-3 text-center">
-                    <h1 class="font-pathway font-75 centerHack">{{prettyHumidity}}%</h1>
+                    <h1 class="font-pathway font-75 centerHack">
+                        <i-odometer class="font-pathway" :value="prettyHumidity"></i-odometer>%
+                    </h1>
                     <small class="text-muted">Current Humidity</small>
                 </div>
     
@@ -31,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h1 class="font-pathway">Speed Data, Last 12h</h1>
+                <h1 class="font-pathway">Speed + Distance, Last 12h</h1>
 
                 <div class="panel">
                     <div class="panel-heading"></div>
@@ -81,23 +83,24 @@
     import RadialProgressBar from 'vue-radial-progress/dist/vue-radial-progress.min.js'
     import VueHighcharts from 'vue-highcharts';
     import Highcharts from 'highcharts';
+    import IOdometer from 'vue-odometer';
     export default {
         data: function() {
             return {
                 currentHumidity: 0,
                 currentTemperature: 0,
-                lastUpdated :'',
+                lastUpdated: '',
                 speedData: {
                     topSpeed: 0,
                     currentSpeed: 0,
-                    milesRanLastTwelevHours:0
+                    milesRanLastTwelevHours: 0
                 },
                 temperatureOptions: {
                     title: {
                         text: '',
                         x: -20 //center
                     },
-                    
+
                     subtitle: {
                         text: '',
                         x: -20
@@ -106,23 +109,23 @@
                         type: 'datetime'
                     },
                     yAxis: [
-                            { // Primary yAxis
-                            labels:{
+                        { // Primary yAxis
+                            labels: {
                                 format: '{value}°F',
                                 style: {
                                     color: Highcharts.getOptions().colors[1]
                                 }
-                                },
-                                title: {
-                                    text: 'Temperature',
-                                    style: {
-                                        color: Highcharts.getOptions().colors[1]
-                                    }
-                                },
-                                opposite: false
-
                             },
-                    ],                 
+                            title: {
+                                text: 'Temperature',
+                                style: {
+                                    color: Highcharts.getOptions().colors[1]
+                                }
+                            },
+                            opposite: false
+
+                        },
+                    ],
                     series: [],
                     plotOptions: {
                         series: {
@@ -142,7 +145,7 @@
                     },
                     xAxis: {
                         type: 'datetime',
-                       
+
                     },
                     yAxis: [
                         { // Primary yAxis
@@ -168,7 +171,7 @@
                             color: Highcharts.getOptions().colors[2]
                         }
                     },
-                 
+
                 },
                 speedOptions: {
                     chart: {
@@ -177,7 +180,7 @@
                     title: {
                         text: '',
                         x: -20 //center
-                    },                 
+                    },
                     subtitle: {
                         text: '',
                         x: -20
@@ -189,36 +192,77 @@
                     plotOptions: {
                         fillColor: Highcharts.getOptions().colors[0]
                     },
-                yAxis:{ // Primary yAxis
-                    labels:{
-                        formatter: function () {
-                            return convertTicksToMph(this.value).toFixed(2) + " MPH";
-                        },
-                       
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    title: {
-                        text: 'Speed',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    min: 0,
-                },                 
-                series: [],
-                tooltip: {
-                    pointFormatter: function () {
-                        return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + convertTicksToMph(this.y).toFixed(2) + ' MPH</b> <br />'
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            formatter: function () {
+                                return this.value + " MPH";
+                            },
 
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+
+                        title: {
+                            text: 'Speed',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        min: 0,
+                    }, {
+                        labels: {
+                            formatter: function () {
+                                return this.value + " Miles";
+                            },
+
+                            style: {
+                                color: Highcharts.getOptions().colors[3]
+                            }
+                        },
+                        title: {
+                            text: 'Distance',
+                            style: {
+                                color: Highcharts.getOptions().colors[3]
+                            }
+                        },
+                        min: 0,
+                    }],
+                    series: [],
+                    tooltip: {
+                        pointFormatter: function () {
+                            console.log(this);
+                            return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + this.y.toFixed(2) + ' ' + this.series.tooltipOptions.valueSuffix + '</b> <br />'
+
+                        }
+                    },
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 400
+                            },
+                            chartOptions: {
+                                yAxis: [{
+                                    labels: {
+                                        enabled: false
+                                    }
+                                },
+                                    {
+                                        labels: {
+                                            enabled: false
+                                        }
+                                    }
+                                ]
+                            }
+
+                        }]
                     }
-                }
                 }
             }
         },
         components: {
-            RadialProgressBar
+            RadialProgressBar,
+            IOdometer
         },
         computed: {
             prettyHumidity: function () {
@@ -267,6 +311,7 @@
                 this.$http.get('/api/historicalspeed').then(response => {
                     this.speedOptions.series = [];
                     this.speedOptions.series.push(response.data.ticks);
+                    this.speedOptions.series.push(response.data.distance);
 
                 }, response => {
                     console.log(response);
