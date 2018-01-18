@@ -46,7 +46,7 @@
                       <table class="table table table-striped table-borderless"  v-if="longestNights && longestNights.length">
                           <thead>
                               <tr>
-                                  <th>Day</th>
+                                  <th>Night Beginning</th>
                                   <th>Distance (miles)</th>
                               </tr>
                           </thead>

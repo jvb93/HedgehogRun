@@ -1,4 +1,7 @@
+using System;
+using Hangfire;
 using HedgehogRun.EntityFramework;
+using HedgehogRun.Hangfire;
 using HedgehogRun.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +23,7 @@ namespace HedgehogRun
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+           
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -29,9 +33,13 @@ namespace HedgehogRun
         {
             // Add framework services.
             services.AddMvc();
-
+            services.AddHangfire(config => config.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddScoped<ITweetService, TweetService>();
             services.AddScoped<IConvertService, ConvertService>();
+            services.AddScoped<ICalculateRecordsTask, CalculateRecordsTask>();
+            services.AddScoped<ITweetTask, TweetTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +47,9 @@ namespace HedgehogRun
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+           // app.UseHangfireDashboard();
+            app.UseHangfireServer();
+          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

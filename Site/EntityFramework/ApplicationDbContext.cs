@@ -14,5 +14,6 @@ namespace HedgehogRun.EntityFramework
         { }
 
         public DbSet<HogLog> HogLogs { get; set; }
+        public DbSet<Record> Records { get; set; }
     }
 }

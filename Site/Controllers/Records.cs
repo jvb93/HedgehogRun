@@ -30,15 +30,15 @@ namespace HedgehogRun.Controllers
         public ActionResult Get()
         {
            
-            var maxTicks = _context.HogLogs.Max(x => x.Ticks);
-            var totalTicks = _context.HogLogs.Sum(x => x.Ticks);
+            var maxTicks = _context.Records.Max(x => x.MaxTicks);
+            var totalTicks = _context.Records.Sum(x => x.TotalTicks);
             var firstTick = _context.HogLogs.Min(x => x.PostTime);
 
-            var topTenNights = _context.HogLogs.GroupBy(x => new {x.PostTime.Year, x.PostTime.Month, x.PostTime.Day})
-                .OrderByDescending(x => x.Sum(y => y.Ticks)).Take(10).ToList()
-                .Select(z => new {Date = z.First().PostTime.ToUnixTime(), Ticks = z.Sum(a => a.Ticks)});
+            var topTenNights = _context.Records.GroupBy(x => new {x.StartDate.Year, x.StartDate.Month, x.StartDate.Day})
+                .OrderByDescending(x => x.Sum(y => y.TotalTicks)).Take(10).ToList()
+                .Select(z => new {Date = z.First().StartDate.ToUnixTime(), Ticks = z.Sum(a => a.TotalTicks)});
 
-            var topTenFastestPeriods = _context.HogLogs.OrderByDescending(x => x.Ticks).Take(10).ToList().Select(x=> new { Date = x.PostTime.ToUnixTime(), x.Ticks});
+            var topTenFastestPeriods = _context.Records.OrderByDescending(x => x.MaxTicks).Take(10).ToList().Select(x=> new { Date = x.FastestInterval.ToUnixTime(), Ticks = x.MaxTicks});
             
 
             JObject toReturn = new JObject();
