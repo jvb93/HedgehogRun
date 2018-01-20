@@ -18,8 +18,8 @@ namespace HedgehogRun.Controllers
 
         public IActionResult Index()
         {
-            RecurringJob.AddOrUpdate(() => _calculateRecordsTask.Execute(), Cron.Daily(7), TimeZoneInfo.Local);
-            RecurringJob.AddOrUpdate(() => _tweetTask.Execute(), Cron.Daily(9), TimeZoneInfo.Local);
+            RecurringJob.AddOrUpdate(() => _calculateRecordsTask.Execute(), Cron.Daily(8), TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
+            RecurringJob.AddOrUpdate(() => _tweetTask.Execute(), Cron.Daily(9), TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
             return View();
         }
 

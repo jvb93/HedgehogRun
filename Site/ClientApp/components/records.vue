@@ -1,72 +1,73 @@
 <template>
     <div>
-      <div class="row mt50">
-          <div class="col-md-6">
-              <div class="panel text-center">
-                  <h1 class="font-75 font-pathway">
-                      <i-odometer class="font-pathway" :value="roundToTwoPlaces(topSpeed)"></i-odometer>
-                      <small>mph</small>
-                  </h1>
-                  <h4 class="text-muted" v-if="oldestTick">Top Speed since {{prettyDate(oldestTick, 'L')}}</h4>
-              </div>
-              <div class="panel">
-                  <div class="panel-heading">Top 10 Fastest Intervals</div>
-                  <div class="panel-body">
-                      <table class="table table-striped table-borderless" v-if="fastestIntervals && fastestIntervals.length">
-                          <thead>
-                              <tr>
-                                  <th>Timestamp</th>
-                                  <th>Speed (mph)</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr v-for="(record, index) in fastestIntervals" :key="index">
-                                  <td>
-                                      {{prettyDate(record.date, 'MM/DD/YYYY hh:mm A')}}
-                                  </td>
-                                  <td>
-                                      {{roundToTwoPlaces(record.speed)}}
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-          <div class="col-md-6">
-              <div class="panel text-center">
-                  <h1 class="font-pathway font-75">
-                      <i-odometer class="font-pathway" :value="roundToTwoPlaces(totalMiles)"></i-odometer><small> miles</small>
-                  </h1>
-                  <h4 class="text-muted" v-if="oldestTick">Miles Ran since {{prettyDate(oldestTick, 'L')}}</h4>
-              </div>
-              <div class="panel">
-                  <div class="panel-heading">Top 10 Longest Nights</div>
-                  <div class="panel-body">
-                      <table class="table table table-striped table-borderless"  v-if="longestNights && longestNights.length">
-                          <thead>
-                              <tr>
-                                  <th>Night Beginning</th>
-                                  <th>Distance (miles)</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr v-for="(record, index) in longestNights" :key="index">
-                                  <td>
-                                      {{prettyDate(record.date, 'L')}}
-                                  </td>
-                                  <td>
-                                      {{roundToTwoPlaces(record.distance)}}
-                                  </td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-      </div>
+        <h1 class="text-center font-pathway font-50">Records</h1>
+        <div class="row mt50">
+            <div class="col-md-6">
+                <div class="panel text-center">
+                    <h1 class="font-75 font-pathway">
+                        <i-odometer class="font-pathway" :value="roundToTwoPlaces(topSpeed)"></i-odometer>
+                        <small>mph</small>
+                    </h1>
+                    <h4 class="text-muted" v-if="oldestTick">Top Speed since {{prettyDate(oldestTick, 'L')}}</h4>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">Top 10 Fastest Intervals</div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-borderless" v-if="fastestIntervals && fastestIntervals.length">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Speed (mph)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(record, index) in fastestIntervals" :key="index">
+                                    <td>
+                                        {{prettyDate(record.date, 'MM/DD/YYYY hh:mm A')}}
+                                    </td>
+                                    <td>
+                                        {{roundToTwoPlaces(record.speed)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel text-center">
+                    <h1 class="font-pathway font-75">
+                        <i-odometer class="font-pathway" :value="roundToTwoPlaces(totalMiles)"></i-odometer><small> miles</small>
+                    </h1>
+                    <h4 class="text-muted" v-if="oldestTick">Miles Ran since {{prettyDate(oldestTick, 'L')}}</h4>
+                </div>
+                <div class="panel">
+                    <div class="panel-heading">Top 10 Longest Nights</div>
+                    <div class="panel-body">
+                        <table class="table table table-striped table-borderless" v-if="longestNights && longestNights.length">
+                            <thead>
+                                <tr>
+                                    <th>Night Beginning</th>
+                                    <th>Distance (miles)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(record, index) in longestNights" :key="index">
+                                    <td>
+                                        {{prettyDate(record.date, 'L')}}
+                                    </td>
+                                    <td>
+                                        {{roundToTwoPlaces(record.distance)}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-       
+
     </div>
 
    

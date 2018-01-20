@@ -40,6 +40,8 @@ namespace HedgehogRun
             services.AddScoped<IConvertService, ConvertService>();
             services.AddScoped<ICalculateRecordsTask, CalculateRecordsTask>();
             services.AddScoped<ITweetTask, TweetTask>();
+            services.AddScoped<ISolarCalculatorService, SolarCalculatorService>();
+            services.AddScoped<IRecordService, RecordService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +49,7 @@ namespace HedgehogRun
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-           // app.UseHangfireDashboard();
+           //app.UseHangfireDashboard();
             app.UseHangfireServer();
           
             if (env.IsDevelopment())
