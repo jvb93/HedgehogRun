@@ -32,7 +32,7 @@ namespace HedgehogRun.Controllers
            
             var maxTicks = _context.Records.Max(x => x.MaxTicks);
             var totalTicks = _context.Records.Sum(x => x.TotalTicks);
-            var firstTick = _context.HogLogs.Min(x => x.PostTime);
+            var firstTick = _context.Records.Min(x => x.StartDate);
 
             var topTenNights = _context.Records.GroupBy(x => new {x.StartDate.Year, x.StartDate.Month, x.StartDate.Day})
                 .OrderByDescending(x => x.Sum(y => y.TotalTicks)).Take(10).ToList()

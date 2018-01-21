@@ -231,7 +231,6 @@
                     series: [],
                     tooltip: {
                         pointFormatter: function () {
-                            console.log(this);
                             return '<span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + this.y.toFixed(2) + ' ' + this.series.tooltipOptions.valueSuffix + '</b> <br />'
 
                         }
@@ -348,11 +347,27 @@
             this.getHistoricalSpeedData();
             this.getCurrentSpeed();
             this.getTicksForLastTwelveHours();
-            setInterval(this.getAtmosphericData, 60000);
-            setInterval(this.getHistoricalAtmosphericData, 60000);
-            setInterval(this.getHistoricalSpeedData, 60000);
-            setInterval(this.getCurrentSpeed,60000);
-            setInterval(this.getTicksForLastTwelveHours,60000);
+
+            //refresh every minute for 100 minutes.
+            var refreshCount = 100;
+            var interval = setInterval(function (atmosphericDataFunction, historicalAtmosphericDataFunction, historicalSpeedFunction, currentSpeedFunction, ticksForLastTwelveHoursfunction) {
+
+                atmosphericDataFunction();
+                historicalAtmosphericDataFunction();
+                historicalSpeedFunction();
+                currentSpeedFunction();
+                ticksForLastTwelveHoursfunction();
+                refreshCount--;
+                console.log("Refreshing Data: " +  refreshCount + " Remaining until reload needed");
+                if (refreshCount < 1) {
+                    console.log("Script has expired. Please reload the page.");
+
+                    clearInterval(interval);
+
+                }
+
+            }, 60000, this.getAtmosphericData, this.getHistoricalAtmosphericData, this.getHistoricalSpeedData, this.getCurrentSpeed, this.getTicksForLastTwelveHours)
+          
 
             
         }

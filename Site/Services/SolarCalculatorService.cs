@@ -13,14 +13,14 @@ namespace HedgehogRun.Services
         {
             SolarTimes solarTimes = new SolarTimes(date, new Angle(latitude), new Angle(longitude));
 
-            return solarTimes.Sunset;
+            return solarTimes.Sunset.Add(timeZone.BaseUtcOffset);
         }
 
         public DateTime GetSunriseTimeForLatLong(DateTime date, TimeZoneInfo timeZone, decimal latitude, decimal longitude)
         {
-            SolarTimes solarTimes = new SolarTimes(date, timeZone.BaseUtcOffset.Hours, new Angle(latitude), new Angle(longitude));
+            SolarTimes solarTimes = new SolarTimes(date, new Angle(latitude), new Angle(longitude));
 
-            return solarTimes.Sunrise;
+            return solarTimes.Sunrise.Add(timeZone.BaseUtcOffset);
         }
     }
 }

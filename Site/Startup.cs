@@ -42,6 +42,7 @@ namespace HedgehogRun
             services.AddScoped<ITweetTask, TweetTask>();
             services.AddScoped<ISolarCalculatorService, SolarCalculatorService>();
             services.AddScoped<IRecordService, RecordService>();
+            services.AddScoped<IFixRecordsTask, FixRecordsTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
