@@ -348,8 +348,8 @@
             this.getCurrentSpeed();
             this.getTicksForLastTwelveHours();
 
-            //refresh every minute for 100 minutes.
-            var refreshCount = 100;
+            //refresh every minute for 30 minutes.
+            var refreshCount = 30;
             var interval = setInterval(function (atmosphericDataFunction, historicalAtmosphericDataFunction, historicalSpeedFunction, currentSpeedFunction, ticksForLastTwelveHoursfunction) {
 
                 atmosphericDataFunction();
