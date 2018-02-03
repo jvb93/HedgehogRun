@@ -26,6 +26,9 @@
     Vue.component('nav-menu', NavMenu);
     import VueHighcharts from 'vue-highcharts';
     import Highcharts from 'highcharts';
+    import VTooltip from 'v-tooltip'
+
+    Vue.use(VTooltip)
     Vue.use(VueHighcharts);
 
     export default {

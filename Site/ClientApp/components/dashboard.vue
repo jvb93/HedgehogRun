@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="text-center font-pathway font-50">Dashboard</h1> 
+        <h1 class="text-center font-pathway font-50">Dashboard</h1>
         <div class="row">
             <div class="clearfix">
                 <div class="col-xs-12 col-md-6 col-md-push-3">
@@ -11,24 +11,24 @@
                                          :total-steps="speedData.topSpeed" style="left:50%; margin-left:-175px;">
                         <h1 class="font-anton font-66">{{ roundToTwoPlaces(speedData.currentSpeed) }} MPH</h1>
                         <small class="text-muted">Current Speed</small>
-          
+
                     </radial-progress-bar>
                 </div>
-    
+
                 <div class="col-xs-6 col-md-3 col-md-pull-6 text-center">
                     <h1 class="font-pathway font-75 centerHack">
                         <i-odometer class="font-pathway" :value="prettyTemperature"></i-odometer>&deg;F
                     </h1>
                     <small class="text-muted">Current Temperature</small>
-                </div>    
-    
+                </div>
+
                 <div class="col-xs-6 col-md-3 text-center">
                     <h1 class="font-pathway font-75 centerHack">
                         <i-odometer class="font-pathway" :value="prettyHumidity"></i-odometer>%
                     </h1>
                     <small class="text-muted">Current Humidity</small>
                 </div>
-    
+
             </div>
         </div>
         <div class="row">
@@ -73,17 +73,20 @@
             </div>
         </div>
         <div class="col-md-12 text-right"><small class="text-muted">Data is current as of: {{prettyDate}}</small></div>
+
     </div>
 
    
 </template>
 
 <script>
+    import Vue from 'vue'
     import { mapActions, mapState } from 'vuex'
     import RadialProgressBar from 'vue-radial-progress/dist/vue-radial-progress.min.js'
     import VueHighcharts from 'vue-highcharts';
     import Highcharts from 'highcharts';
     import IOdometer from 'vue-odometer';
+   
     export default {
         data: function() {
             return {
@@ -337,8 +340,8 @@
             },
             roundToTwoPlaces: function (value) {
                 return value.toFixed(2);
-            }
-           
+            },
+             
         },
 
         mounted: function () {
@@ -380,6 +383,7 @@
     function convertTicksToMiles(ticks) {
         return ((ticks * 2 * 3.14 * 5.25) / 12) / 5280;
     }
+   
 </script>
 
 

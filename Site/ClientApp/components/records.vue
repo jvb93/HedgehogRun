@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <h1 class="text-center font-pathway font-50">Records</h1>
         <div class="row mt50">
             <div class="col-md-6">
@@ -36,7 +37,7 @@
             </div>
             <div class="col-md-6">
                 <div class="panel text-center">
-                    <h1 class="font-pathway font-75">
+                    <h1 class="font-pathway font-75" v-tooltip="convertHedgehogMilesToHumanMiles(totalMiles).toLocaleString() + ' human miles'">
                         <i-odometer class="font-pathway" :value="roundToTwoPlaces(totalMiles)"></i-odometer><small> miles</small>
                     </h1>
                     <h4 class="text-muted" v-if="oldestTick">Miles Ran since {{prettyDate(oldestTick, 'L')}}</h4>
@@ -57,16 +58,16 @@
                                         {{prettyDate(record.date, 'L')}}
                                     </td>
                                     <td>
-                                        {{roundToTwoPlaces(record.distance)}}
+                                        <div style="display:inline-block"  v-tooltip.right="convertHedgehogMilesToHumanMiles(record.distance).toLocaleString() + ' human miles'">{{roundToTwoPlaces(record.distance)}}</div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
-
 
     </div>
 
@@ -124,7 +125,12 @@
                     return moment(d).format(fmat);
                 }
                 return date;
-            }
+            },
+            convertHedgehogMilesToHumanMiles: function (hedgehogMiles) {
+                //best guestimate math from http://geomika.com/blog/2013/12/01/hedgehog-running/
+                var numberOfSteps = hedgehogMiles / (1.25 * .0000434960227273);
+                return numberOfSteps / 2000;
+            }    
         
         },
 
